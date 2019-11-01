@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 配置数据源 -->
+    <context:property-placeholder location="classpath*:config-jdbc.properties" ignore-unresolvable="true"/>
+
+    <!-- C3P0 配置数据源:默认数据源和只读数据源 -->
+    <bean id="c3p0DataSourceDefault" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialPoolSize" value="${c3p0.initSize}"/>
+        <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+        <property name="maxIdleTime" value="${c3p0.maxIdleTime}"/>
+        <property name="acquireIncrement" value="${c3p0.acquireIncrement}"/>
+        <property name="maxStatements" value="${c3p0.maxStatements}"/>
+        <property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"/>
+        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"/>
+        <property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}"/>
+        <property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}"/>
+    </bean>
+
+    <bean id="c3p0DataSourceReadOnly" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialPoolSize" value="${c3p0.initSize}"/>
+        <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+        <property name="maxIdleTime" value="${c3p0.maxIdleTime}"/>
+        <property name="acquireIncrement" value="${c3p0.acquireIncrement}"/>
+        <property name="maxStatements" value="${c3p0.maxStatements}"/>
+        <property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"/>
+        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"/>
+        <property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}"/>
+        <property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}"/>
+    </bean>
+
+    <!-- DBCP 配置数据源:默认数据源和只读数据源 -->
+    <bean id="dbcpDataSourceDefault" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxIdle" value="${dbcp.maxIdle}"/>
+        <property name="initialSize" value="${dbcp.initSize}"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+    </bean>
+
+    <bean id="dbcpDataSourceReadOnly" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxIdle" value="${dbcp.maxIdle}"/>
+        <property name="initialSize" value="${dbcp.initSize}"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+    </bean>
+
+    <!-- mybatis SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 加载数据源:dataSource属性指定要用到的连接池 -->
+        <property name="dataSource" ref="c3p0DataSourceDefault"/>
+
+        <!-- 加载 MyBatis 的配置文件:configLocation属性指定mybatis的核心配置文件 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!-- 自动扫描mapping.xml文件,**表示迭代查找,也可在mybatis-config.xml中单独指定xml文件 -->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:com/**/mapper/*Mapper.xml</value>
+            </array>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.**.repository"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 声明式事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="c3p0DataSourceDefault"/>
+    </bean>
+
+    <!-- 支持注解驱动的事务管理，指定事务管理器 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

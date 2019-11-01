@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ccx.test.web.repository.IProductMapper">
+
+    <resultMap id="BaseMapper" type="com.ccx.common.lang.base.BaseVO">
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="version" column="VERSION"/>
+    </resultMap>
+
+    <resultMap id="ProductMapper" type="com.ccx.test.web.entiry.ProductVO" extends="BaseMapper">
+        <result property="id" column="ID"/>
+        <result property="saleId" column="SALE_ID"/>
+        <result property="name" column="NAME"/>
+        <result property="stock" column="STOCK"/>
+        <result property="rest" column="REST"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+    </resultMap>
+
+    <sql id="whereForProduct">
+        <if test=" id != null ">
+            AND SP.ID = #{id}
+        </if>
+        <if test=" saleId != null ">
+            AND SP.SALE_ID = #{saleId}
+        </if>
+        <if test=" name != null ">
+            AND SP.NAME LIKE '%${name}%'
+        </if>
+        <if test=" version != null ">
+            AND VERSION = #{version}
+        </if>
+    </sql>
+
+    <select id="getByPage" parameterType="java.util.Map" resultMap="ProductMapper">
+        SELECT SP.* FROM SECKILL_PRODUCT SP
+        <where>
+            AND SP.ID >= ( SELECT SP.ID FROM SECKILL_PRODUCT SP
+            <where>
+                <include refid="whereForProduct"/>
+            </where>
+            ORDER BY SP.ID ASC LIMIT #{rowStart}, 1 )
+            AND ( SELECT SP.ID FROM SECKILL_PRODUCT SP
+            <where>
+                <include refid="whereForProduct"/>
+            </where>
+            ORDER BY SP.ID ASC LIMIT #{rowEnd}, 1 ) >= SP.ID
+        </where>
+    </select>
+
+    <select id="getTotal" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM SECKILL_PRODUCT SP
+        <where>
+            <include refid="whereForProduct"/>
+        </where>
+    </select>
+
+</mapper>
