@@ -43,13 +43,13 @@ logback-access 可以与 Servlet 容器进行整合，例如：Tomcat、Jetty。
 </dependencies>
 ```
 
-2.配置logback.xml文件         
-logback默认配置的步骤如下：
+2.配置logback.xml文件               
+logback默认配置的步骤如下：       
 (1)尝试在 classpath 下查找文件 logback-test.xml；    
 (2)如果 logback-test.xml 文件不存在，则查找文件logback.xml；    
 (3)如果两个文件都不存在，logback用BasicConfigurator自动对自己进行配置，这会导致记录输出到控制台。    
-&emsp;
-在项目中只需要参考如下配置即可:    
+
+在项目中只需要参考如下配置即可:       
 (1)将 [app-config.properties](app-config.properties)适当修改后放入 src\main\resources 和 src\test\resources 目录下；        
 (2)将 [logback.xml](logback.xml) 放入 src\main\resources 目录下，将 [logback-test.xml](logback-test.xml) 放入 src\test\resources 目录下;       
 注意:以上第二步可以只放入 [logback.xml](logback.xml) 到 src\main\resources 目录下。   
