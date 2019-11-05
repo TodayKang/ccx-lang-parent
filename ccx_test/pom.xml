@@ -6,7 +6,7 @@
 
     <groupId>com.ccx.common</groupId>
     <artifactId>ccx_test</artifactId>
-    <version>${re-vision}</version>
+    <version>1.0.0.RELEASE</version>
     <packaging>war</packaging>
 
     <name>${project.artifactId}</name>
@@ -24,15 +24,18 @@
         <!-- slf4j + logback -->
         <slf4j.version>1.7.25</slf4j.version>
         <logback-core.version>1.2.3</logback-core.version>
-
         <junit.version>4.12</junit.version>
-        <spring-core.version>5.1.4.RELEASE</spring-core.version>
 
         <mysql.version>8.0.17</mysql.version>
         <c3p0.version>0.9.5.4</c3p0.version>
         <commons-dbcp2.version>2.7.0</commons-dbcp2.version>
         <mybatis-core.version>3.5.2</mybatis-core.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
+        <spring-core.version>5.2.0.RELEASE</spring-core.version>
+        <spring-data.version>2.2.0.RELEASE</spring-data.version>
+
+        <jackson-core.version>2.10.0</jackson-core.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     </properties>
 
     <dependencies>
@@ -204,6 +207,18 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis-spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-core.version}</version>
         </dependency>
 
         <dependency>

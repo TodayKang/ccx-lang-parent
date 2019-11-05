@@ -6,7 +6,7 @@
 
     <groupId>com.ccx.common</groupId>
     <artifactId>ccx-lang</artifactId>
-    <version>${re-vision}</version>
+    <version>1.0.0.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -17,9 +17,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-
-        <!-- release version -->
-        <re-vision>1.0.0.RELEASE</re-vision>
 
         <!-- slf4j + logback -->
         <slf4j.version>1.7.25</slf4j.version>
@@ -37,7 +34,7 @@
         <fastjson.version>1.2.62</fastjson.version>
         <lombok.version>1.18.10</lombok.version>
         <jackson-core.version>2.10.0</jackson-core.version>
-        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     </properties>
 
     <dependencies>
@@ -129,12 +126,14 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-core.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
