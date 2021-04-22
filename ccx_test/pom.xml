@@ -29,7 +29,7 @@
         <mysql.version>8.0.17</mysql.version>
         <c3p0.version>0.9.5.4</c3p0.version>
         <commons-dbcp2.version>2.7.0</commons-dbcp2.version>
-        <mybatis-core.version>3.5.2</mybatis-core.version>
+        <mybatis-core.version>3.5.6</mybatis-core.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
         <spring-core.version>5.2.0.RELEASE</spring-core.version>
         <spring-data.version>2.2.0.RELEASE</spring-data.version>
